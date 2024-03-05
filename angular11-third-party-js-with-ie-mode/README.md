@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.19.
 
-## Add JS to Project and Use
+## 1. Add JS to Project and Use
 1. Add JavaScript files to your project in assets
 
 2. Place the file path in `angular.json` scripts 
@@ -70,4 +70,102 @@ myScriptElement: HTMLScriptElement;
    }
 }
 ```
+
+## 2. Supporting IE 11
+
+**NOTE:** *FROM ANGULAR V13, IE11 CAN NO LONGER BE SUPPORTED. IF YOU NEED TO SUPPORT IE11, PLEASE USE A VERSION OF ANGULAR <13***
+
+1. Targeting ES5 in `tsconfig.json`
+
+   *IE11 only supports ES5 or lower. Therefore, TypeScript needs to Transpile your code to ES5 compatible code.*
+
+```bash
+"compilerOptions": {
+    ...
+    "target": "es5"
+}
+```
+
+2. Update broswerlist to support IE 11 (Note: remove `not` if present with `IE 11`)
+
+```bash
+not IE 9-10
+IE 11
+```
+
+3. Polyfills
+
+   If any of your dependencies use features from `ES6+`, you need to polyfill those. `CoreJS` is included with Angular install, and can be used for the majority of the polyfills.
+
+   **Note: Each polyfill will increase the bundle size, so be careful when choosing which polyfills to import.**
+
+   a. Open your `polyfills.ts` file and place the following at the top under `BROWSER POLYFILLS`:
+
+```bash
+# Add core-js support under BROWSER POLYFILLS:
+
+# For quick win (NOT RECOMMENDED)
+import 'core-js';
+
+
+# or add as per need
+import 'core-js/es6/symbol';
+import 'core-js/es6/object';
+import 'core-js/es6/function';
+import 'core-js/es6/parse-int';
+import 'core-js/es6/parse-float';
+import 'core-js/es6/number';
+import 'core-js/es6/math';
+import 'core-js/es6/string';
+import 'core-js/es6/date';
+import 'core-js/es6/regexp';
+import 'core-js/es6/map';
+import 'core-js/es6/weak-map';
+import 'core-js/es6/set';
+import 'core-js/es6/array';
+import 'core-js/es7/array'; // for .includes()
+```
+
+   b. Next add NgClass support by installing classlist.js and uncommenting import
+
+```bash
+npm install --save classlist.js
+
+# and then uncomment the import as below
+
+/** IE10 and IE11 requires the following for NgClass support on SVG elements */
+import 'classlist.js'; // Run `npm install --save classlist.js`.
+```
+
+   c. `[OPTIONAL]` If you use **Angular Material** or the **AnimationBuilder** from `@angular/platform-browser/animations` then install dependency and uncomment import:
+
+```bash
+npm install --save web-animations-js
+
+# and then uncomment the import as below
+
+import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+```
+
+4. [OPTIONAL] Additional Checking
+
+   - Third-party dependencies need to support ES5
+
+   - IE11 doesn't support CSS Custom Properties 
+      - use `css-vars-ponyfill` package
+
+   - Styling issues arising from flexbox support
+
+      - try to use full flex property
+      
+   - Running DevTools in IE11 conflicts with zone.js
+
+      - To fix, add a global `ZONE FLAG` for zone in `polyfills.ts` to execute slightly additional code.
+
+      ```bash
+      # Find the zone.js import and add the following so it looks like this:
+
+      (window as any).__Zone_enable_cross_context_check = true;
+      import 'zone.js/dist/zone'; // Included with Angular CLI.
+      ```
 
