@@ -169,3 +169,35 @@ import 'web-animations-js';  // Run `npm install --save web-animations-js`.
       import 'zone.js/dist/zone'; // Included with Angular CLI.
       ```
 
+## 3. Create project using specific angular version
+
+Using CLI you can not create a specific angular version.
+
+But you can install a specific version of angular CLI into a particular folder.
+
+1. Create a new folder inside any drive. e.g. `d:\projects\demo`.
+
+2. Open the folder in cmd
+
+3. Now install angular specific version: 
+
+```bash
+# for angular 11 use below or use a similar command for the other version
+npm install @angular/cli@11 
+```
+
+4. After installation, now create a new angular project in your specific folder.
+
+```bash
+npx ng new Project_name
+```
+
+## 4. Open IE dev tools if using IE mode in Edge browser
+
+To debug the content of an IE mode tab, use `IEChooser` to open `Internet Explorer DevTools`, as follows:
+
+1. In Windows, open the Run dialog. For example, press `Windows logo key + R`.
+
+2. Enter `%systemroot%\system32\f12\IEChooser.exe`, and then click `OK`.
+
+3. In `IEChooser`, select the entry for the IE mode tab.
